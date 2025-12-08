@@ -1,0 +1,5 @@
+timestamp,source_ip,dest_ip,dest_port,protocol,method,status_code,bytes_sent,bytes_received,event_type,is_malicious
+2025-01-01T10:00:00Z,192.168.1.10,10.0.0.5,443,TCP,GET,200,512,2048,normal,0
+2025-01-01T10:05:00Z,192.168.1.11,10.0.0.8,22,TCP,SSH,200,128,512,normal,0
+2025-01-01T10:10:00Z,203.0.113.50,10.0.0.12,22,TCP,SSH,401,64,128,brute_force,1
+2025-01-01T10:15:00Z,198.51.100.23,10.0.0.15,3389,TCP,RDP,401,256,256,ransomware,1
