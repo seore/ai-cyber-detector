@@ -1,0 +1,9 @@
+timestamp,src_ip,username,status,event_type,log_source,bytes_sent,bytes_received,country,is_anomaly
+2025-01-11T10:00:01Z,10.0.0.5,alice,SUCCESS,login,auth_server,720,1100,GB,0
+2025-01-11T10:02:14Z,10.0.0.8,bob,FAIL,login,auth_server,290,510,GB,0
+2025-01-11T10:02:28Z,10.0.0.8,bob,SUCCESS,login,auth_server,630,940,GB,0
+2025-01-11T10:05:44Z,10.0.0.12,carol,SUCCESS,file_access,fileserver,21000,60000,GB,0
+2025-01-11T10:10:22Z,185.23.10.44,unknown,FAIL,login,edge_firewall,220,250,RU,1
+2025-01-11T10:10:24Z,185.23.10.44,unknown,FAIL,login,edge_firewall,225,255,RU,1
+2025-01-11T10:15:09Z,203.0.113.8,admin,FAIL,login,edge_vpn,320,610,US,1
+2025-01-11T10:15:19Z,203.0.113.8,admin,SUCCESS,login,edge_vpn,1500,2400,US,1

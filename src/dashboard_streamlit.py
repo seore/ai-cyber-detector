@@ -6,7 +6,6 @@ from detect import score_logs
 from data_prep import save_processed
 from config import PROCESSED_DATA_DIR
 
-
 st.set_page_config(
     page_title="AI Cyber Log Anomaly Detector",
     layout="wide",

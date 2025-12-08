@@ -1,0 +1,8 @@
+timestamp,src_ip,username,status,event_type,log_source,bytes_sent,bytes_received,country,is_anomaly
+2025-01-12T06:01:00Z,10.10.0.10,cam-lobby,SUCCESS,heartbeat,iot_gateway,900,700,GB,0
+2025-01-12T06:01:05Z,10.10.0.11,cam-parking,SUCCESS,heartbeat,iot_gateway,920,710,GB,0
+2025-01-12T06:03:10Z,10.10.0.12,thermostat-1,SUCCESS,telemetry,iot_gateway,1500,1300,GB,0
+2025-01-12T06:05:22Z,203.0.113.200,unknown,FAIL,login,iot_gateway,260,280,US,1
+2025-01-12T06:05:24Z,203.0.113.200,unknown,FAIL,login,iot_gateway,255,275,US,1
+2025-01-12T06:05:27Z,203.0.113.200,unknown,FAIL,login,iot_gateway,262,282,US,1
+2025-01-12T06:06:40Z,10.10.0.10,cam-lobby,SUCCESS,heartbeat,iot_gateway,910,705,GB,0

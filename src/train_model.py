@@ -4,10 +4,10 @@ from pathlib import Path
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 
-from config import TRAINING_DATA_PATH, MODEL_PATH
-from data_prep import load_logs
-from ip_enrich import enrich_dataframe_ips
-from features import add_basic_features, build_feature_pipeline, get_feature_columns
+from src.config import TRAINING_DATA_PATH, MODEL_PATH
+from src.data_prep import load_logs
+from .ip_enrich import enrich_dataframe_ips
+from src.features import add_basic_features, build_feature_pipeline, get_feature_columns
 
 
 def train_model(df: pd.DataFrame) -> None:

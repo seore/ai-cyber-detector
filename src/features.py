@@ -35,7 +35,12 @@ def add_basic_features(df: pd.DataFrame) -> pd.DataFrame:
     df["user_unique_ips"] = user_group["src_ip"].transform("nunique")
 
     # Replace NaNs
-    df["country"] = df["country"].fillna("unknown")
+    # df["country"] = df["country"].fillna("unknown")
+    # Ensure geo fields exist so later steps don't break
+    for col in ["country", "city", "region"]:
+        if col not in df.columns:
+            df[col] = "unknown"
+            df[col] = df[col].fillna("unknown")
 
     return df
 
