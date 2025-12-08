@@ -1,86 +1,59 @@
-import pandas as pd
-import numpy as np
-from pathlib import Path
 import joblib
+from pathlib import Path
 
+import pandas as pd
 from sklearn.ensemble import IsolationForest
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from sklearn.pipeline import Pipeline
+
+from .config import TRAINING_DATA_PATH, MODEL_PATH
+from .data_prep import load_logs
+from .ip_enrich import enrich_dataframe_ips
+from .features import add_basic_features, build_feature_pipeline, get_feature_columns
 
 
-BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_PATH = BASE_DIR / "data" / "historical_logs.csv"
-MODEL_PATH = BASE_DIR / "models" / "anomaly_pipeline.joblib"
+def train_model(df: pd.DataFrame) -> None:
+    """
+    Train IsolationForest on engineered features and save model + pipeline.
+    """
+    print("Enriching IPs with geo data (if IPINFO_TOKEN set)...")
+    df = enrich_dataframe_ips(df)
 
+    print("Adding engineered features...")
+    df = add_basic_features(df)
 
-def load_data(path: Path) -> pd.DataFrame:
-    df = pd.read_csv(path)
+    cat_cols, num_cols = get_feature_columns()
+    used_cols = cat_cols + num_cols
 
-    # Basic cleaning / timestamp features
-    if "timestamp" in df.columns:
-        df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
-        df["hour"] = df["timestamp"].dt.hour
-        df["dayofweek"] = df["timestamp"].dt.dayofweek
-        df = df.drop(columns=["timestamp"])
+    print("Building feature pipeline...")
+    feature_pipeline = build_feature_pipeline()
+    X = feature_pipeline.fit_transform(df)
 
-    return df
-
-
-def build_pipeline(df: pd.DataFrame) -> Pipeline:
-    # Simple heuristic: numeric vs non-numeric columns
-    numeric_features = df.select_dtypes(include=[np.number]).columns.tolist()
-    categorical_features = df.select_dtypes(exclude=[np.number]).columns.tolist()
-
-    numeric_transformer = Pipeline(
-        steps=[
-            ("scaler", StandardScaler())
-        ]
-    )
-
-    categorical_transformer = Pipeline(
-        steps=[
-            ("onehot", OneHotEncoder(handle_unknown="ignore"))
-        ]
-    )
-
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ("num", numeric_transformer, numeric_features),
-            ("cat", categorical_transformer, categorical_features),
-        ]
-    )
-
-    # Isolation Forest for unsupervised anomaly detection
+    print("Training IsolationForest...")
     model = IsolationForest(
         n_estimators=200,
-        contamination=0.05,  
+        contamination=0.01,   # expected fraction of anomalies
         random_state=42,
+        n_jobs=-1,
     )
+    model.fit(X)
 
-    pipeline = Pipeline(
-        steps=[
-            ("preprocess", preprocessor),
-            ("model", model),
-        ]
+    print(f"Saving model and feature pipeline to {MODEL_PATH}...")
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(
+        {
+            "model": model,
+            "pipeline": feature_pipeline,
+            "feature_columns": used_cols,
+        },
+        MODEL_PATH,
     )
-
-    return pipeline
+    print("✅ Training complete.")
 
 
 def main():
-    print(f"Loading data from {DATA_PATH}")
-    df = load_data(DATA_PATH)
-
-    print("Building pipeline...")
-    pipeline = build_pipeline(df)
-
-    print("Training model (unsupervised)...")
-    pipeline.fit(df) 
-
-    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(pipeline, MODEL_PATH)
-    print(f"Saved trained pipeline to {MODEL_PATH}")
+    data_path = Path(TRAINING_DATA_PATH)
+    print(f"Loading training data from {data_path}...")
+    df = load_logs(data_path)
+    train_model(df)
 
 
 if __name__ == "__main__":
