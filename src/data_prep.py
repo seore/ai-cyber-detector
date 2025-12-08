@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from .config import REQUIRED_COLUMNS
+from config import REQUIRED_COLUMNS
 
 # Aliases for different possible column names in real log datasets
 COLUMN_ALIASES = {

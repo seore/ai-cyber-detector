@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd
 
 from pathlib import Path
-
-from .detect import score_logs
-from .data_prep import save_processed
-from .config import PROCESSED_DATA_DIR
+from detect import score_logs
+from data_prep import save_processed
+from config import PROCESSED_DATA_DIR
 
 
 st.set_page_config(

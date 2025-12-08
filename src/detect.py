@@ -4,10 +4,10 @@ from typing import Tuple
 import joblib
 import pandas as pd
 
-from .config import MODEL_PATH
-from .data_prep import load_logs
-from .ip_enrich import enrich_dataframe_ips
-from .features import add_basic_features, get_feature_columns
+from config import MODEL_PATH
+from data_prep import load_logs
+from ip_enrich import enrich_dataframe_ips
+from features import add_basic_features, get_feature_columns
 
 
 def load_trained_model():

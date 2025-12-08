@@ -3,7 +3,7 @@ from typing import Optional, Dict
 import requests
 import pandas as pd
 
-from .config import IPINFO_TOKEN
+from config import IPINFO_TOKEN
 
 
 def enrich_ip_ipinfo(ip: str) -> Dict[str, Optional[str]]:
