@@ -17,13 +17,13 @@ MODELS_DIR.mkdir(parents=True, exist_ok=True)
 MODEL_PATH = MODELS_DIR / "isolation_forest.joblib"
 
 # IP enrichment / geo
-IPINFO_TOKEN = os.getenv("IPINFO_TOKEN")  # optional, for ipinfo API
+IPINFO_TOKEN = os.getenv("IPINFO_TOKEN")  
 
 # Columns we expect in logs (you can adapt to your dataset)
 REQUIRED_COLUMNS = [
-    "timestamp",   # datetime string
-    "src_ip",      # source IP address
-    "username",    # user / account name
-    "event_type",  # e.g. "login", "file_access"
-    "status"       # e.g. "success", "failure"
+    "timestamp",   
+    "src_ip",      
+    "username",    
+    "event_type",  
+    "status"       
 ]

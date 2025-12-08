@@ -23,10 +23,8 @@ def add_basic_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df.copy()
 
-    # Time-based features
     df["hour"] = df["timestamp"].dt.hour
 
-    # User aggregation
     user_group = df.groupby("username")
     df["user_event_count"] = user_group["username"].transform("count")
     df["user_failed_count"] = user_group["status"].transform(
@@ -36,7 +34,6 @@ def add_basic_features(df: pd.DataFrame) -> pd.DataFrame:
 
     # Replace NaNs
     # df["country"] = df["country"].fillna("unknown")
-    # Ensure geo fields exist so later steps don't break
     for col in ["country", "city", "region"]:
         if col not in df.columns:
             df[col] = "unknown"

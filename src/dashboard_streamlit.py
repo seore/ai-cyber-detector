@@ -23,7 +23,6 @@ and this app will score events for anomalies, compute user risk, and show quick 
 uploaded = st.file_uploader("Upload logs CSV", type=["csv"])
 
 if uploaded is not None:
-    # Save uploaded file to a temporary processed path
     PROCESSED_DATA_DIR.mkdir(parents=True, exist_ok=True)
     tmp_path = PROCESSED_DATA_DIR / "uploaded_for_detection.csv"
     df_raw = pd.read_csv(uploaded)

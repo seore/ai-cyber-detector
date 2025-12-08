@@ -28,7 +28,7 @@ def _standardise_columns(df: pd.DataFrame) -> pd.DataFrame:
             if alias.lower() in lower_map:
                 actual_col = lower_map[alias.lower()]
                 rename_map[actual_col] = std_name
-                break  # stop at the first match
+                break  
 
     if rename_map:
         df = df.rename(columns=rename_map)
@@ -56,24 +56,21 @@ def load_logs(path: Path) -> pd.DataFrame:
     # Try to automatically map column aliases to our standard names
     df = _standardise_columns(df)
 
-    # Ensure we have at least a timestamp column
     if "timestamp" not in df.columns:
         raise ValueError(
             f"No usable timestamp column found in {path}. "
             f"Tried aliases: {COLUMN_ALIASES['timestamp']}"
         )
 
-    # Parse timestamp to datetime
     df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
     df = df.dropna(subset=["timestamp"])
 
     # For all other required columns, if still missing, create defaults
     for col in REQUIRED_COLUMNS:
         if col == "timestamp":
-            continue  # already handled
+            continue 
 
         if col not in df.columns:
-            # Create a sensible default column
             if col == "src_ip":
                 default_value = "0.0.0.0"
             elif col in ("username", "event_type", "status"):
@@ -88,7 +85,6 @@ def load_logs(path: Path) -> pd.DataFrame:
             )
             df[col] = default_value
 
-    # Final safety: fill NaNs in key categorical fields
     for col in ["src_ip", "username", "event_type", "status"]:
         if col in df.columns:
             df[col] = df[col].fillna("unknown")

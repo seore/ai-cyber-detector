@@ -36,15 +36,14 @@ def score_logs(path: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
     used_cols = cat_cols + num_cols
 
     X = pipeline.transform(df)
-    raw_scores = model.decision_function(X)  # higher = more normal
+    raw_scores = model.decision_function(X) 
 
     # Convert to anomaly-like score (0 to 1; 1=most anomalous-ish)
-    # Normalise by rank
     scores_series = pd.Series(raw_scores)
     anomaly_score = 1 - scores_series.rank(pct=True)
 
     df["anomaly_score"] = anomaly_score
-    df["is_anomaly"] = anomaly_score > 0.95  # threshold; tweak as needed
+    df["is_anomaly"] = anomaly_score > 0.95  
 
     # User risk = average anomaly_score + boosts for high anomaly counts
     user_group = df.groupby("username")
@@ -61,7 +60,6 @@ def score_logs(path: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
 
 
 if __name__ == "__main__":
-    # Example usage:
     test_path = Path("data/processed/historical_logs.csv")
     events, users = score_logs(test_path)
     print("Top 10 suspicious events:")

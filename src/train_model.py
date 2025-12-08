@@ -30,7 +30,7 @@ def train_model(df: pd.DataFrame) -> None:
     print("Training IsolationForest...")
     model = IsolationForest(
         n_estimators=200,
-        contamination=0.01,   # expected fraction of anomalies
+        contamination=0.01,   
         random_state=42,
         n_jobs=-1,
     )
@@ -46,7 +46,7 @@ def train_model(df: pd.DataFrame) -> None:
         },
         MODEL_PATH,
     )
-    print("✅ Training complete.")
+    print("Training complete.")
 
 
 def main():
