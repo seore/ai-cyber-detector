@@ -1,0 +1,5 @@
+timestamp,src_ip,username,status,event_type,country
+2025-12-01 08:14:23,203.0.113.10,alice,success,login,US
+2025-12-01 08:16:40,198.51.100.23,bob,failure,login,DE
+2025-12-01 08:17:02,198.51.100.23,bob,failure,login,DE
+2025-12-01 08:20:11,203.0.113.77,alice,logout,US
