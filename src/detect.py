@@ -18,11 +18,6 @@ def load_trained_model():
 
 
 def score_logs(path: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Score a batch of logs and return:
-    - events_df: original logs + anomaly_score + is_anomaly
-    - user_risk_df: aggregated per-user risk scores
-    """
     print(f"Loading logs from {path}...")
     df = load_logs(path)
 
