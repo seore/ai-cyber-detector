@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("🛡️ AI Cyber Log Anomaly Detector")
+st.title("AI Cyber Log Anomaly Detector")
 
 st.markdown(
     """

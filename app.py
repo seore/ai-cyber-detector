@@ -31,7 +31,7 @@ def main():
         layout="wide",
     )
 
-    st.title("🛡️ AI Cyber Log Anomaly Detector")
+    st.title("AI Cyber Log Anomaly Detector")
     st.write(
         "Upload security / access logs and let an Isolation Forest model detect anomalous events."
     )
